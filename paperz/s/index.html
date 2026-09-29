@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Meet me here · Paperz</title>
+<meta name="description" content="A place in a book, shared from Paperz.">
+<style>
+  :root { --paper: #e8e3d8; --ink: #1f1d1a; --muted: #5a554c; --rule: #1f1d1a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 Georgia, "Iowan Old Style", "Times New Roman", serif; }
+  main { max-width: 34rem; margin: 0 auto; padding: 48px 16px 64px; }
+  .label { font: 600 13px/1.4 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: 30px; line-height: 1.2; margin: 10px 0 4px; font-weight: 600; }
+  .author { font-size: 18px; margin: 0 0 6px; }
+  .where { font: 14px/1.4 system-ui, sans-serif; color: var(--muted); margin: 0 0 20px; }
+  blockquote { margin: 0 0 28px; padding: 16px 0 16px 18px; border-left: 3px solid var(--rule); font-size: 19px; }
+  .open { display: block; text-align: center; background: var(--ink); color: var(--paper); text-decoration: none; font: 600 16px/1 system-ui, sans-serif; padding: 16px; border-radius: 6px; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 36px 0 20px; }
+  p.small { font: 15px/1.55 system-ui, sans-serif; color: var(--muted); }
+  a { color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <div class="label">Meet me here</div>
+  <h1 id="title">A place in a book</h1>
+  <p class="author" id="author"></p>
+  <p class="where" id="where"></p>
+  <blockquote id="quote" hidden></blockquote>
+  <a class="open" id="open" href="/paperz/">Open in Paperz</a>
+  <hr>
+  <p class="small">
+    This link opens the same book at the same sentence in <strong>Paperz</strong>, a Kindle-style e-ink reader for Android.
+    If it opened in your browser instead, you don't have Paperz yet: ask the friend who sent it to share it with you
+    (in Paperz: <em>⋯ → Share Paperz</em>). <a href="/paperz/">What is Paperz?</a>
+  </p>
+</main>
+<script>
+  // Everything from the link goes in as text, never as HTML.
+  const q = new URLSearchParams(location.search);
+  const set = (id, text) => { const el = document.getElementById(id); el.textContent = text; return el; };
+  if (q.get("t")) { set("title", q.get("t")); document.title = q.get("t") + " · Paperz"; }
+  if (q.get("a")) set("author", q.get("a"));
+  const page = q.get("pg"), quote = q.get("q"), pct = Math.round((Number(q.get("p")) || 0) / 10);
+  set("where", page !== null && !quote ? "Page " + (Number(page) + 1) : pct + "% through");
+  if (quote) { const b = set("quote", "“" + quote + "”"); b.hidden = false; }
+  // On Android, hand the same link to the app; without it, stay on this page.
+  if (/Android/i.test(navigator.userAgent)) {
+    const fallback = encodeURIComponent(location.href);
+    document.getElementById("open").href =
+      "intent://" + location.host + location.pathname + location.search +
+      "#Intent;scheme=https;package=dev.papermode;S.browser_fallback_url=" + fallback + ";end";
+  }
+</script>
+</body>
+</html>

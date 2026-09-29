@@ -1,0 +1,18 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.papermode",
+      "sha256_cert_fingerprints": ["3B:2A:47:25:A3:E9:37:3F:B7:76:56:47:15:3B:36:5A:51:B6:36:6E:E0:8E:2F:4A:A0:5A:2F:10:9C:00:10:72"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.papermode.debug",
+      "sha256_cert_fingerprints": ["23:EF:C8:C2:C9:2F:B1:70:22:89:E2:02:D2:1F:60:95:C6:A9:13:63:A8:44:68:CD:6E:25:52:95:94:17:1B:A0"]
+    }
+  }
+]
